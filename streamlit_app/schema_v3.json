@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "structural_export_v3.json",
+  "title": "Calculadora Estrutural NBR 6118 — Schema de Exportação SketchUp",
+  "description": "Versão 3.0: adiciona posicao (no_inicio/no_fim), cargas decompostas e pavimento_hint. Compatível com v2.0 (campos posicao opcionais).",
+  "type": "object",
+  "required": ["schema_version", "global_parameters", "elementos_estruturais"],
+
+  "properties": {
+
+    "schema_version": {
+      "type": "string",
+      "enum": ["2.0", "3.0"],
+      "description": "Versão do schema. '3.0' habilita o solver automático; '2.0' ativa o modo manual."
+    },
+
+    "exportado_em": {
+      "type": "string",
+      "description": "Timestamp ISO 8601 da exportação."
+    },
+
+    "global_parameters": {
+      "type": "object",
+      "required": ["classe_concreto", "tipo_aco", "tipo_combinacao", "classe_agressividade"],
+      "properties": {
+        "classe_concreto": {
+          "type": "string",
+          "enum": ["C20","C25","C30","C35","C40","C45","C50"],
+          "description": "Classe de resistência do concreto (NBR 8953)."
+        },
+        "tipo_aco": {
+          "type": "string",
+          "enum": ["CA-25","CA-50","CA-60"],
+          "description": "Tipo de aço para armaduras (NBR 7480)."
+        },
+        "tipo_combinacao": {
+          "type": "string",
+          "enum": ["normal","especial","excepcional"],
+          "description": "Tipo de combinação de ações para ELU (NBR 6118 Tab. 12.1)."
+        },
+        "classe_agressividade": {
+          "type": "string",
+          "enum": ["I","II","III","IV"],
+          "description": "Classe de agressividade ambiental (NBR 6118 Tab. 6.1)."
+        },
+        "tolerancia_nos_m": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 0.05,
+          "default": 0.005,
+          "description": "Tolerância em metros para identificar nós coincidentes (padrão 5mm)."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "elementos_estruturais": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "tipo", "nome", "geometria"],
+        "properties": {
+
+          "id": {
+            "type": "string",
+            "description": "Identificador único do elemento no modelo."
+          },
+          "tipo": {
+            "type": "string",
+            "enum": ["viga", "pilar", "laje"]
+          },
+          "nome": {
+            "type": "string",
+            "description": "Nome descritivo (ex: V1, P3, L-Sala)."
+          },
+          "pavimento_hint": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Índice do pavimento detectado no SketchUp (0=térreo). Auxiliar para floor_detector.py."
+          },
+
+          "geometria": {
+            "type": "object",
+            "required": ["comprimento", "largura", "altura"],
+            "properties": {
+              "comprimento": {"type": "number", "minimum": 0.1, "description": "m — comprimento ou vão livre"},
+              "largura":     {"type": "number", "minimum": 5.0, "description": "cm — dimensão menor (bw para vigas, b para pilares, lx para lajes)"},
+              "altura":      {"type": "number", "minimum": 5.0, "description": "cm — dimensão maior (h para vigas/pilares, espessura para lajes)"}
+            },
+            "additionalProperties": false
+          },
+
+          "posicao": {
+            "type": "object",
+            "description": "Coordenadas absolutas no sistema global do SketchUp (metros, Z=vertical). Obrigatório para schema_version 3.0.",
+            "required": ["no_inicio", "no_fim"],
+            "properties": {
+              "no_inicio": {"$ref": "#/definitions/ponto3d"},
+              "no_fim":    {"$ref": "#/definitions/ponto3d"}
+            },
+            "additionalProperties": false
+          },
+
+          "cargas": {
+            "type": "object",
+            "description": "Cargas aplicadas ao elemento, decompostas por categoria.",
+            "properties": {
+              "pp_automatico": {
+                "type": "boolean",
+                "default": true,
+                "description": "Se true, o peso próprio do concreto é calculado automaticamente pelo PyNite via rho=25 kN/m³."
+              },
+              "paredes": {
+                "type": "array",
+                "description": "Lista de paredes apoiadas sobre a viga.",
+                "items": {
+                  "type": "object",
+                  "required": ["tipo_id", "altura_m", "carga_kN_m"],
+                  "properties": {
+                    "tipo_id":    {"type": "string", "description": "ID na load_library.json"},
+                    "nome":       {"type": "string"},
+                    "altura_m":   {"type": "number", "minimum": 0.1, "description": "Altura livre da parede em metros."},
+                    "carga_kN_m": {"type": "number", "minimum": 0.0, "description": "Carga linear resultante em kN/m (= kN_m2 × altura_m)."}
+                  }
+                }
+              },
+              "revestimento": {
+                "type": ["object","null"],
+                "description": "Revestimento de laje (apenas para lajes).",
+                "properties": {
+                  "tipo_id":  {"type": "string"},
+                  "nome":     {"type": "string"},
+                  "kN_m2":   {"type": "number", "minimum": 0.0}
+                }
+              },
+              "variavel": {
+                "type": ["object","null"],
+                "description": "Carga variável de uso (NBR 6120).",
+                "properties": {
+                  "tipo_id": {"type": "string"},
+                  "nome":    {"type": "string"},
+                  "kN_m2":  {"type": "number", "minimum": 0.0}
+                }
+              },
+              "especiais_kN_m": {
+                "type": "number",
+                "default": 0.0,
+                "description": "Cargas especiais lineares adicionais (kN/m) — equipamentos, reservatório, etc."
+              }
+            },
+            "additionalProperties": false
+          },
+
+          "vinculo_base": {
+            "type": "string",
+            "enum": ["engastado", "rotulado"],
+            "description": "Vínculo na base do pilar. 'engastado' = fundação; 'rotulado' = apoio sobre laje/viga."
+          },
+
+          "parametros_calculo": {
+            "type": "object",
+            "description": "Parâmetros de detalhamento para verificações NBR 6118.",
+            "properties": {
+              "cobrimento_nominal":              {"type": "number", "minimum": 10},
+              "phi_longitudinal":                {"type": "number", "enum": [6.3,8,10,12.5,16,20,25,32]},
+              "phi_estribo":                     {"type": "number", "enum": [5,6.3,8,10,12.5]},
+              "num_ramos_estribo":               {"type": "integer", "minimum": 2},
+              "momento_fletor_Md":               {"type": "number"},
+              "forca_cortante_Vd":               {"type": "number"},
+              "forca_normal_Nd":                 {"type": "number"},
+              "momento_Mdx":                     {"type": "number"},
+              "momento_Mdy":                     {"type": "number"},
+              "momento_caracteristico_Mk":       {"type": "number"},
+              "momento_servico_Ms":              {"type": "number"},
+              "as_tracao_els":                   {"type": "number"},
+              "num_barras_fissuras":             {"type": "integer"},
+              "modelo_cisalhamento":             {"type": "string"},
+              "angulo_theta_cisalhamento":       {"type": "integer", "minimum": 30, "maximum": 45},
+              "uso_elemento_els":                {"type": "string"},
+              "wk_limite_fissuras":              {"type": "string"}
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+
+  "definitions": {
+    "ponto3d": {
+      "type": "object",
+      "required": ["x","y","z"],
+      "properties": {
+        "x": {"type": "number", "description": "metros"},
+        "y": {"type": "number", "description": "metros"},
+        "z": {"type": "number", "description": "metros (positivo = para cima)"}
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "additionalProperties": false
+}

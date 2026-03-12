@@ -1,0 +1,252 @@
+{
+  "_meta": {
+    "versao": "1.0",
+    "norma_principal": "ABNT NBR 6120:2019",
+    "descricao": "Biblioteca de cargas para uso na extensão SketchUp e no app Streamlit."
+  },
+
+  "paredes": [
+    {
+      "id": "bloco_ceramico_9cm",
+      "nome": "Bloco cerâmico 9cm + reboco (ambas as faces)",
+      "kN_m2": 1.30,
+      "ref": "NBR 6120:2019 Tab. 1 — Alvenaria cerâmica",
+      "notas": "Inclui reboco 2cm/face (~0,40 kN/m²) + bloco (~0,90 kN/m²)"
+    },
+    {
+      "id": "bloco_ceramico_14cm",
+      "nome": "Bloco cerâmico 14cm + reboco (ambas as faces)",
+      "kN_m2": 1.80,
+      "ref": "NBR 6120:2019 Tab. 1",
+      "notas": "Inclui reboco 2cm/face (~0,40 kN/m²) + bloco (~1,40 kN/m²)"
+    },
+    {
+      "id": "bloco_ceramico_19cm",
+      "nome": "Bloco cerâmico 19cm + reboco (ambas as faces)",
+      "kN_m2": 2.30,
+      "ref": "NBR 6120:2019 Tab. 1",
+      "notas": "Para paredes externas de maior espessura"
+    },
+    {
+      "id": "bloco_concreto_14cm",
+      "nome": "Bloco de concreto 14cm (sem reboco)",
+      "kN_m2": 2.40,
+      "ref": "NBR 6120:2019 Tab. 1 — Bloco de concreto",
+      "notas": "Peso específico ≈ 14 kN/m³ × 0,14 m × ~1,20 fator juntas"
+    },
+    {
+      "id": "bloco_concreto_19cm",
+      "nome": "Bloco de concreto 19cm (sem reboco)",
+      "kN_m2": 3.00,
+      "ref": "NBR 6120:2019 Tab. 1",
+      "notas": ""
+    },
+    {
+      "id": "dry_wall_simples",
+      "nome": "Drywall — parede simples (1 face por lado)",
+      "kN_m2": 0.30,
+      "ref": "ABNT NBR 15758 / dados de fabricante",
+      "notas": "Estrutura metálica + 2 chapas 12,5mm. Sem isolamento."
+    },
+    {
+      "id": "dry_wall_duplo",
+      "nome": "Drywall — parede dupla (2 faces por lado)",
+      "kN_m2": 0.45,
+      "ref": "ABNT NBR 15758 / dados de fabricante",
+      "notas": "4 chapas 12,5mm + montantes. Melhor isolamento acústico."
+    },
+    {
+      "id": "vidro_estrutural_8mm",
+      "nome": "Vidro laminado estrutural 8mm",
+      "kN_m2": 0.20,
+      "ref": "NBR 7199 / dados de fabricante",
+      "notas": "Apenas o vidro. Não inclui caixilho."
+    },
+    {
+      "id": "vidro_estrutural_12mm",
+      "nome": "Vidro laminado estrutural 12mm",
+      "kN_m2": 0.30,
+      "ref": "NBR 7199 / dados de fabricante",
+      "notas": ""
+    },
+    {
+      "id": "tijolo_macico_25cm",
+      "nome": "Tijolo maciço 25cm + reboco",
+      "kN_m2": 4.80,
+      "ref": "NBR 6120:2019 Tab. 1 — Alvenaria de tijolo maciço",
+      "notas": "γ ≈ 18 kN/m³ × 0,25 m + reboco = 4,50 + 0,30"
+    },
+    {
+      "id": "custom",
+      "nome": "Carga personalizada (kN/m²)",
+      "kN_m2": null,
+      "ref": "Informado pelo usuário",
+      "notas": "Informe o peso específico da parede por m² de face."
+    }
+  ],
+
+  "revestimentos": [
+    {
+      "id": "sem_revestimento",
+      "nome": "Sem revestimento (laje crua)",
+      "kN_m2": 0.00,
+      "ref": "—",
+      "notas": "Apenas o peso próprio da laje (calculado pelo PyNite)."
+    },
+    {
+      "id": "ceramica_contrapiso_5cm",
+      "nome": "Cerâmica + contrapiso 5cm",
+      "kN_m2": 1.20,
+      "ref": "NBR 6120:2019 Tab. 1",
+      "notas": "Contrapiso (0,80) + cerâmica/argamassa (0,40) = 1,20 kN/m²"
+    },
+    {
+      "id": "porcelanato_contrapiso_5cm",
+      "nome": "Porcelanato + contrapiso 5cm",
+      "kN_m2": 1.35,
+      "ref": "NBR 6120:2019 Tab. 1",
+      "notas": "Porcelanato mais denso que cerâmica comum (~0,55 kN/m²)"
+    },
+    {
+      "id": "piso_elevado_técnico",
+      "nome": "Piso elevado técnico + contrapiso",
+      "kN_m2": 1.50,
+      "ref": "Dados de fabricante + NBR 6120",
+      "notas": "Para salas técnicas, datacenters, escritórios especiais"
+    },
+    {
+      "id": "madeira_assoalho",
+      "nome": "Assoalho de madeira + barrotes",
+      "kN_m2": 0.60,
+      "ref": "NBR 6120:2019 Tab. 1 — Madeira",
+      "notas": "Madeira maciça 2,5cm + barrotes. Sem contrapiso."
+    },
+    {
+      "id": "cobertura_telha_ceramica",
+      "nome": "Cobertura — telha cerâmica + estrutura de madeira",
+      "kN_m2": 1.00,
+      "ref": "NBR 6120:2019 Tab. 1",
+      "notas": "Telha (~0,60) + caibros/ripas/terças (~0,40)"
+    },
+    {
+      "id": "cobertura_telha_metalica",
+      "nome": "Cobertura — telha metálica (trapezoidal/sanduíche)",
+      "kN_m2": 0.20,
+      "ref": "Dados de fabricante",
+      "notas": "Inclui fixadores e rufos. Sem isolamento."
+    },
+    {
+      "id": "cobertura_impermeabilizacao",
+      "nome": "Cobertura com impermeabilização (laje inclinada ou plana)",
+      "kN_m2": 2.00,
+      "ref": "NBR 6120:2019",
+      "notas": "Camada de regularização (0,80) + manta/membrana (0,20) + proteção (1,00)"
+    },
+    {
+      "id": "jardim_terra_20cm",
+      "nome": "Jardim — grama + terra vegetal 20cm",
+      "kN_m2": 4.00,
+      "ref": "NBR 6120:2019 Tab. 1 — Terra úmida",
+      "notas": "γ_terra ≈ 18 kN/m³ × 0,20m + grama ≈ 3,60 + 0,40 = 4,00 kN/m²"
+    },
+    {
+      "id": "jardim_terra_40cm",
+      "nome": "Jardim — terra vegetal 40cm (telhado verde extensivo)",
+      "kN_m2": 7.50,
+      "ref": "NBR 6120:2019 / ABNT NBR 15575",
+      "notas": "γ_terra ≈ 18 kN/m³ × 0,40m + vegetação ≈ 7,20 + 0,30"
+    },
+    {
+      "id": "custom",
+      "nome": "Carga de revestimento personalizada (kN/m²)",
+      "kN_m2": null,
+      "ref": "Informado pelo usuário",
+      "notas": ""
+    }
+  ],
+
+  "variavel_nbr6120": [
+    {
+      "id": "residencial_dormitorio",
+      "nome": "Residencial — dormitório / quarto / suíte",
+      "kN_m2": 1.50,
+      "ref": "NBR 6120:2019 Tab. 2 — Residencial (áreas privativas)"
+    },
+    {
+      "id": "residencial_sala_cozinha",
+      "nome": "Residencial — sala de estar, sala de jantar, cozinha",
+      "kN_m2": 1.50,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "residencial_banheiro",
+      "nome": "Residencial — banheiro / lavabo",
+      "kN_m2": 1.50,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "residencial_varanda",
+      "nome": "Residencial — varanda / sacada / terraço privativo",
+      "kN_m2": 2.00,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "corredor_escada_residencial",
+      "nome": "Residencial — corredor, escada, área de serviço",
+      "kN_m2": 3.00,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "garagem_veiculo_leve",
+      "nome": "Garagem — veículos leves (até 25 kN por eixo)",
+      "kN_m2": 3.00,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "escritorio_geral",
+      "nome": "Escritório — uso geral / coworking",
+      "kN_m2": 2.00,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "corredor_comercial",
+      "nome": "Corredor / escada de edifício comercial",
+      "kN_m2": 4.00,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "comercial_lojas",
+      "nome": "Lojas, salas comerciais, salões",
+      "kN_m2": 4.00,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "cobertura_acesso_pessoas",
+      "nome": "Cobertura — com acesso de pessoas (terraço coletivo)",
+      "kN_m2": 2.00,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "cobertura_sem_acesso",
+      "nome": "Cobertura — sem acesso (apenas manutenção)",
+      "kN_m2": 1.00,
+      "ref": "NBR 6120:2019 Tab. 2"
+    },
+    {
+      "id": "custom",
+      "nome": "Carga variável personalizada — informar valor e referência NBR 6120",
+      "kN_m2": null,
+      "ref": "NBR 6120:2019 Tab. 2 — a confirmar pelo projetista"
+    }
+  ],
+
+  "combinacoes_nbr6118": {
+    "descricao": "Coeficientes de ponderação para combinações de ações conforme NBR 6118:2023 Tab. 12.1",
+    "ELU_normal":   {"gamma_G": 1.4, "gamma_Q": 1.4, "descricao": "Estado Limite Último — combinação normal"},
+    "ELU_especial": {"gamma_G": 1.3, "gamma_Q": 1.3, "descricao": "Estado Limite Último — combinação especial/construção"},
+    "ELU_excepcional": {"gamma_G": 1.2, "gamma_Q": 1.0, "descricao": "Estado Limite Último — combinação excepcional"},
+    "ELS_qpermanente": {"gamma_G": 1.0, "psi_2_Q": 0.3, "descricao": "ELS — combinação quase-permanente (flechas de longo prazo)"},
+    "ELS_frequente":   {"gamma_G": 1.0, "psi_1_Q": 0.6, "descricao": "ELS — combinação frequente (verificação de fissuras)"},
+    "ELS_rara":        {"gamma_G": 1.0, "gamma_Q": 1.0, "descricao": "ELS — combinação rara (tensões de serviço)"}
+  }
+}

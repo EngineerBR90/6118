@@ -1,0 +1,10 @@
+streamlit>=1.32.0
+plotly>=5.18.0
+pandas>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+jsonschema>=4.0.0
+PyniteFEA>=0.0.96
+prettytable>=3.9.0
+reportlab>=4.0.0
+kaleido>=0.2.1
